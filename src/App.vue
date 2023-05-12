@@ -5,11 +5,11 @@ let todos = ref([])
 let newtodos = ref('')
 
 function clicke() {
-  todos.value.push(newtodos.value)
-
+  todos.value.push({
+    text: newtodos.value,
+    complete: false
+  })
   newtodos.value = ''
-  
-  
 }
 
 function getout (index) {
@@ -24,9 +24,10 @@ function getout (index) {
   
   <ul>
   <li v-for="(todo, index) in todos">
+    <input type="checkbox" v-model="todo.complete">
     <button @click="getout(index)">❌</button>
     {{ index }}
-    {{todo}}
+    {{todo.text}}
   </li>
   </ul>
 
@@ -40,12 +41,15 @@ h1 {
   font-family: 'Times New Roman', Times, serif;
 }
 button {
-    background-color:darkblue;
-    color:azure;
+    background-color:aliceblue;
+    color:blue;
     cursor: pointer;
     font-family: 'Instrument Serif', serif;
 }
 li {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+input {
+  font-family: monospace;
 }
 </style>
