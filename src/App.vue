@@ -25,7 +25,6 @@ function getout (index) {
   <ul>
   <li v-for="(todo, index) in todos">
     <input type="checkbox" v-model="todo.complete">
-    <button @click="getout(index)">❌</button>
     {{ index }}
     {{todo.text}}
   </li>
