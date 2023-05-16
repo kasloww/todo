@@ -37,7 +37,6 @@ watch(todos, function(value) {
     {{todo.text}}
     <button @click="getout(index)">❌</button>
   </li>
-  </ul>
   
 
   <input v-model="newtodos" @keydown.enter="clicke">
