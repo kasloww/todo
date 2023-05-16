@@ -1,7 +1,7 @@
 <script setup>
 import {ref, watch} from 'vue'
 
-let todos = ref(JSON.parse(window.localStorage.getItem('todos')))
+let todos = ref(JSON.parse(window.localStorage.getItem('todos')) ?? [])
 let newtodos = ref('')
 
 function clicke() {
@@ -23,52 +23,65 @@ watch(todos, function(value) {
 </script>
 
 <template>
+  <div class="centerpls">
   <h1>Hello,</h1>
-  <p></p>
-  <h2>Gonna forget something? Write it here.</h2>
+  <h2>Gonna Forget Something?</h2>
   
-  <ul>
-  <li v-for="(todo, index) in todos">
+  <li v-for="(todo, index) in todos" :class="{textstuff: todo.complete}">
     <label class="container">
     <input type="checkbox" checked="checked" v-model="todo.complete">
     <span class="checkmark"></span>
     </label>
     {{ index }}
     {{todo.text}}
-    <button @click="getout(index)">❌</button>
+    <button @click="getout(index)">🚮</button>
   </li>
   
-
-  <input v-model="newtodos" @keydown.enter="clicke">
+  <input v-model="newtodos" @keydown.enter="clicke" placeholder="Write here:">
   <button @click="clicke">Enter</button>
+</div>
 </template>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+body {
+  background-color: rgb(149, 213, 247, 0.3);
+}
+.centerpls {
+  text-align: center;
+}
 h1, h2 {
   font-family: 'Montserrat', sans-serif;
-  color:darkgrey
+  color:rgb(24, 88, 249)
 }
 button {
     background-color:rgb(255, 255, 255);
     cursor: pointer;
-    font-family: 'Instrument Serif', serif;
-    border-color: white;
+    font-family: 'Raleway', sans-serif;
+    border-color: rgba(0, 47, 255, 0.642);
+    margin: 8px 0;
+    box-sizing: border-box;
 }
 li {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  color:rgb(0, 132, 255);
 }
 input {
   font-family: monospace;
+  width:50%;
+  padding: 12px 20px;
+  margin: 8px;
+  box-sizing: border-box;
 }
 .container {
-  display: block;
+  display: inline-block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
+  padding-left: 30px;
+  margin-bottom: 17px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 10px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -93,7 +106,7 @@ input {
   background-color: #ccc;
 }
 .container input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #edf6fc;
 }
 .checkmark:after {
   content: "";
@@ -113,5 +126,9 @@ input {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+.textstuff {
+  text-decoration: line-through;
+  color: dimgray;
 }
 </style>
