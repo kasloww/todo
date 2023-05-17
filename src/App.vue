@@ -3,6 +3,7 @@ import {ref, watch} from 'vue'
 
 let todos = ref(JSON.parse(window.localStorage.getItem('todos')) ?? [])
 let newtodos = ref('')
+let filter = ref('All')
 
 function clicke() {
   todos.value.push({
@@ -16,6 +17,13 @@ function getout (index) {
   todos.value.splice(index, 1)
 }
 
+function todoFilter (todo) {
+  if (filter.value == 'active') {
+    return todo.complete == false 
+  } else {
+    return true
+  }
+} 
 watch(todos, function(value) {
   window.localStorage.setItem('todos', JSON.stringify(value))
 }, {deep: true})
@@ -27,7 +35,7 @@ watch(todos, function(value) {
   <h1>Hello,</h1>
   <h2>Gonna Forget Something?</h2>
   
-  <li v-for="(todo, index) in todos" :class="{textstuff: todo.complete}">
+  <li v-for="(todo, index) in todos.filter(todoFilter)" :class="{textstuff: todo.complete}">
     <label class="container">
     <input type="checkbox" checked="checked" v-model="todo.complete">
     <span class="checkmark"></span>
@@ -37,8 +45,13 @@ watch(todos, function(value) {
     <button @click="getout(index)">🚮</button>
   </li>
   
-  <input v-model="newtodos" @keydown.enter="clicke" placeholder="Write here:">
-  <button @click="clicke">Enter</button>
+  <input v-model="newtodos" @keydown.enter="clicke" placeholder="Write here:" class="wherewetype">
+  <button @click="clicke" class="enteronly">Enter</button>
+  <p></p>
+  <input name="filter" type="radio" value="all" v-model="filter">
+  <label>All</label>
+  <input name="filter" type="radio" value="active" v-model="filter">
+  <label>Active</label>
 </div>
 </template>
 
@@ -46,14 +59,21 @@ watch(todos, function(value) {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 body {
   background-color: rgb(149, 213, 247, 0.3);
 }
 .centerpls {
   text-align: center;
 }
-h1, h2 {
+h1 {
   font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  color:rgb(24, 88, 249)
+}
+h2 {
+  font-family:'Montserrat', sans-serif;
+  font-weight: 200;
   color:rgb(24, 88, 249)
 }
 button {
@@ -68,12 +88,15 @@ li {
   font-family: 'Raleway', sans-serif;
   color:rgb(0, 132, 255);
 }
-input {
+.wherewetype {
   font-family: monospace;
   width:50%;
-  padding: 12px 20px;
-  margin: 8px;
+  padding: 12px;
   box-sizing: border-box;
+}
+.enteronly {
+  width:5%;
+  padding: 12px 20px;
 }
 .container {
   display: inline-block;
