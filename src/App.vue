@@ -20,14 +20,20 @@ function getout (index) {
 function todoFilter (todo) {
   if (filter.value == 'active') {
     return todo.complete == false 
+  } else if (filter.value == 'complete'){
+    return todo.complete == true
   } else {
     return true
   }
-} 
+}
+
+function activeFilter (todo) {
+  return todo.complete == false
+}
+
 watch(todos, function(value) {
   window.localStorage.setItem('todos', JSON.stringify(value))
 }, {deep: true})
-
 </script>
 
 <template>
@@ -40,7 +46,6 @@ watch(todos, function(value) {
     <input type="checkbox" checked="checked" v-model="todo.complete">
     <span class="checkmark"></span>
     </label>
-    {{ index }}
     {{todo.text}}
     <button @click="getout(index)">🚮</button>
   </li>
@@ -48,10 +53,16 @@ watch(todos, function(value) {
   <input v-model="newtodos" @keydown.enter="clicke" placeholder="Write here:" class="wherewetype">
   <button @click="clicke" class="enteronly">Enter</button>
   <p></p>
+
+  <div v-if="todos.length > 0">
+    <p> {{ todos.filter(activeFilter).length }} remaining.</p>
   <input name="filter" type="radio" value="all" v-model="filter">
   <label>All</label>
   <input name="filter" type="radio" value="active" v-model="filter">
   <label>Active</label>
+  <input name="filter" type="radio" value="complete" v-model="filter">
+  <label>Completed</label>
+</div>
 </div>
 </template>
 
@@ -76,6 +87,10 @@ h2 {
   font-weight: 200;
   color:rgb(24, 88, 249)
 }
+p {
+  font-family:'Montserrat', sans-serif;
+  color:rgb(24, 88, 249)
+}
 button {
     background-color:rgb(255, 255, 255);
     cursor: pointer;
@@ -84,9 +99,16 @@ button {
     margin: 8px 0;
     box-sizing: border-box;
 }
+
 li {
   font-family: 'Raleway', sans-serif;
   color:rgb(0, 132, 255);
+  list-style-type: circle;
+}
+label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  color:rgb(24, 88, 249)
 }
 .wherewetype {
   font-family: monospace;
