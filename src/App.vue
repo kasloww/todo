@@ -39,7 +39,7 @@ watch(todos, function(value) {
 <template>
   <div class="centerpls">
   <h1>Hello,</h1>
-  <h2>Gonna Forget Something?</h2>
+  <h2>What "To-Do" Today?</h2>
   
   <li v-for="(todo, index) in todos.filter(todoFilter)" :class="{textstuff: todo.complete}">
     <label class="container">
@@ -47,7 +47,7 @@ watch(todos, function(value) {
     <span class="checkmark"></span>
     </label>
     {{todo.text}}
-    <button @click="getout(index)">🚮</button>
+    <button class="trashbuttononly" @click="getout(index)">🚮</button>
   </li>
   
   <input v-model="newtodos" @keydown.enter="clicke" placeholder="Write here:" class="wherewetype">
@@ -71,6 +71,7 @@ watch(todos, function(value) {
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
 body {
   background-color: rgb(149, 213, 247, 0.3);
 }
@@ -80,12 +81,12 @@ body {
 h1 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  color:rgb(24, 88, 249)
+  color:rgb(24, 88, 249);
 }
 h2 {
   font-family:'Montserrat', sans-serif;
   font-weight: 200;
-  color:rgb(24, 88, 249)
+  color:rgb(24, 88, 249);
 }
 p {
   font-family:'Montserrat', sans-serif;
@@ -99,11 +100,22 @@ button {
     margin: 8px 0;
     box-sizing: border-box;
 }
-
+button:hover {
+  color: #ccc;
+}
+.trashbuttononly {
+  margin: 5px;
+}
 li {
   font-family: 'Raleway', sans-serif;
   color:rgb(0, 132, 255);
-  list-style-type: circle;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background: #cce5ff;
+  margin: 3px;
+  padding: 5px;
+  border-radius: 5px;
 }
 label {
   font-family: 'Montserrat', sans-serif;
@@ -119,6 +131,7 @@ label {
 .enteronly {
   width:5%;
   padding: 12px 20px;
+  border-radius: 3px;
 }
 .container {
   display: inline-block;
